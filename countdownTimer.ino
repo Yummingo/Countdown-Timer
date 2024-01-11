@@ -1,14 +1,15 @@
 #include <RTClib.h>
 #include <Wire.h>
 
+
 RTC_DS3231 rtc;
 
 int burnTime = 200;
 int lastMotion = 0;
 int diffTimer = lastMotion - millis();
-int offNoMotion = 300000;
+int offNoMotion = 300000; //5 minutes
 
-DateTime nowdt = rtc.now();
+DateTime nowdt = rtc.now(); //gets time from RTC
 unsigned long now = nowdt.unixtime(); //converts time from RTC to unixtime epoch
 unsigned long retireTime = 2542140000; //enter unixtime epoch for retirement date here
 unsigned long tdiff = abs(retireTime - now); //abs() allows timer to count up from retireTime
@@ -53,6 +54,7 @@ String difference = String(tdiffDays); //convers to string for further processin
 
 void setup() {
   Wire.begin();
+  rtc.begin();
 
   pinMode(yrX000A, OUTPUT);
   pinMode(yrX000B, OUTPUT);
@@ -171,16 +173,7 @@ void cathodePoisoning() { //cycle all nixies 0-9
   display2(hr0XA, hr0XB, hr0XC, hr0XD);
   delay(burnTime);
 
-  display3(yrX000A, yrX000B, yrX000C, yrX000D);display5(yr0X00A, yr0X00B, yr0X00C, yr0X00D);
-  display5(yr00X0A, yr00X0B, yr00X0C, yr00X0D);
-  display5(yr000XA, yr000XB, yr000XC, yr000XD);
-  display5(hrX0A, hrX0B, hrX0C, hrX0D);
-  display5(hr0XA, hr0XB, hr0XC, hr0XD);
-  delay(burnTime);
-
-  display6(yrX000A, yrX000B, yrX000C, yrX000D);
-  display6(yr0X00A, yr0X00B, yr0X00C, yr0X00D);
-  di
+  display3(yrX000A, yrX000B, yrX000C, yrX000D);
   display3(yr0X00A, yr0X00B, yr0X00C, yr0X00D);
   display3(yr00X0A, yr00X0B, yr00X0C, yr00X0D);
   display3(yr000XA, yr000XB, yr000XC, yr000XD);
@@ -197,7 +190,16 @@ void cathodePoisoning() { //cycle all nixies 0-9
   delay(burnTime);
 
   display5(yrX000A, yrX000B, yrX000C, yrX000D);
-  splay6(yr00X0A, yr00X0B, yr00X0C, yr00X0D);
+  display5(yr0X00A, yr0X00B, yr0X00C, yr0X00D);
+  display5(yr00X0A, yr00X0B, yr00X0C, yr00X0D);
+  display5(yr000XA, yr000XB, yr000XC, yr000XD);
+  display5(hrX0A, hrX0B, hrX0C, hrX0D);
+  display5(hr0XA, hr0XB, hr0XC, hr0XD);
+  delay(burnTime);
+
+  display6(yrX000A, yrX000B, yrX000C, yrX000D);
+  display6(yr0X00A, yr0X00B, yr0X00C, yr0X00D);
+  display6(yr00X0A, yr00X0B, yr00X0C, yr00X0D);
   display6(yr000XA, yr000XB, yr000XC, yr000XD);
   display6(hrX0A, hrX0B, hrX0C, hrX0D);
   display6(hr0XA, hr0XB, hr0XC, hr0XD);
@@ -284,6 +286,7 @@ int display7(int inputA, int inputB, int inputC, int inputD) {
   digitalWrite(inputB, HIGH);
   digitalWrite(inputC, HIGH);
   digitalWrite(inputD, LOW);
+}
 
 int display8(int inputA, int inputB, int inputC, int inputD) {
   digitalWrite(inputA, LOW);
