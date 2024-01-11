@@ -87,7 +87,8 @@ void setup() {
   pinMode(hr0XD, OUTPUT);
   
   pinMode(relay, OUTPUT);
-//  attachInterrupt(digitalPinToInterrupt(interruptPin),timerReset(), HIGH);
+
+  attachInterrupt(digitalPinToInterrupt(interruptPin),timerReset(), HIGH);
 }
 
 void loop() {
